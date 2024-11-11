@@ -1,115 +1,93 @@
-import Image from "next/image";
-import localFont from "next/font/local";
+import React from "react";
+import { BiHash, BiHomeCircle, BiMoney, BiUser } from "react-icons/bi";
+import { BsBell, BsBookmark, BsEnvelope, BsTwitter } from "react-icons/bs";
+import FeedCard from "@/components/feedCard";
+import { SlOptions } from "react-icons/sl";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+
+interface TwitterSidebarButton {
+   title: string;
+   icon: React.ReactNode
+}
+
+const sideBarMenuItems: TwitterSidebarButton[] = [
+    {
+      title: 'Home',
+      icon:  <BiHomeCircle/>
+    },
+    {
+      title: 'Explore',
+      icon:  <BiHash/>
+    },
+    {
+      title: 'Notifications',
+      icon:  <BsBell/>
+    },
+    {
+      title: 'Messages',
+      icon:  <BsEnvelope/>
+    },
+    {
+      title: 'Bookmarks',
+      icon:  <BsBookmark/>
+    },
+    {
+      title: 'Twitter Blue',
+      icon:  <BiMoney/>
+    },
+    {
+      title: 'Profile',
+      icon:  <BiUser/>
+    },
+    {
+      title: 'More Options',
+      icon:  <SlOptions/>
+    },
+    // {
+    //   title: 'Bookmarks',
+    //   icon:  <BsBookmark/>
+    // }
+]
 
 export default function Home() {
   return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              pages/index.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+      <div>
+       <div className="grid grid-cols-12 h-screen w-screen px-56">
+          <div className="col-span-3  pt-1 ">
+            <div className="hover:bg-gray-800 p-4 h-fit w-fit rounded-full cursor-pointer transition-all">
+              <BsTwitter className="text-2xl"/>
+            </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+            <div className="mt-1 text-xl  pr-4">
+                <ul>
+                  {sideBarMenuItems.map((item, idx) => (
+                     <li key={idx} className="flex justify-start gap-4 items-center hover:bg-gray-800 w-fit rounded-full px-5 py-2 cursor-pointer transition-all mt-2">
+                       <span className="text-2xl">{item.icon}</span>
+                       <span>{item.title}</span>
+                     </li>
+                  ))}
+                </ul>
+
+                <div className="mt-5 px-3">
+                 <button className="bg-[#1d9bf0] py-4 px-2 text-lg font-semibold rounded-full w-full">Tweet</button>
+                </div>
+
+            </div>
+
+          </div>
+          <div className="col-span-6 border-r border-l h-screen overflow-scroll  border-gray-600">
+            <FeedCard/>
+            <FeedCard/>
+            <FeedCard/>
+            <FeedCard/>
+            <FeedCard/>
+            <FeedCard/>
+            <FeedCard/>
+            <FeedCard/>
+          </div>
+          <div className="col-span-3"></div>
+       </div>
+      
+      </div>
   );
 }
