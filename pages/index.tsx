@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
-import { BiHash, BiHomeCircle, BiMoney, BiUser } from "react-icons/bi";
+import React, { useCallback, useState } from "react";
+import { BiHash, BiHomeCircle, BiImageAlt, BiMoney, BiUser } from "react-icons/bi";
 import { BsBell, BsBookmark, BsEnvelope, BsTwitter } from "react-icons/bs";
 import FeedCard from "@/components/feedCard";
 import { SlOptions } from "react-icons/sl";
@@ -10,6 +10,8 @@ import toast from "react-hot-toast";
 import { useCurrentUser } from "@/hooks/user";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
+import { useCreateTweet, useGetAllTweets } from "@/hooks/tweet";
+import { Tweet } from "@/gql/graphql";
 
 interface TwitterSidebarButton {
    title: string;
@@ -56,9 +58,15 @@ const sideBarMenuItems: TwitterSidebarButton[] = [
 ]
 
 export default function Home() {
-  
+
+  const [content, setContent] = useState('')
+
+
   const user = useCurrentUser();
-   
+  const {tweets} = useGetAllTweets();
+  const { mutate } = useCreateTweet()
+  
+
   const queryClient = useQueryClient();
 
 
@@ -87,6 +95,20 @@ export default function Home() {
        
 
   }, [queryClient])
+
+  const handleCreateTweet = useCallback(() => {
+    mutate({
+      content
+    })
+    setContent('')
+  }, [content, mutate])
+
+  const handleImageSelect = useCallback(() => {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file')
+    input.setAttribute('accept', 'image/*')
+    input.click();
+  }, [])
 
 
   return (
@@ -126,27 +148,51 @@ export default function Home() {
               )}
               <div>
                 <h3 className="text-xl" >{user.data.getCurrentUser.firstName} {user.data.getCurrentUser.lastName}</h3>
-             
               </div>
-          </div>
-            )}
-
+            </div>)}
           </div>
           <div className="col-span-6 border-r border-l h-screen overflow-scroll  border-gray-600">
+            <div>
+               <div className="p-5 border-t border-gray-600 hover:bg-slate-900  cursor-pointer transition-all">
+                <div className="grid grid-cols-12 gap-3 ">
+                <div className="col-span-1">
+                  {user?.data && user.data.getCurrentUser?.profileImageUrl && (
+                    <Image 
+                      src={user.data.getCurrentUser?.profileImageUrl}
+                      alt='user-profile'
+                      width={50}
+                      height={50}
+                      className="rounded-full"
+                    />
+                  )}
+                </div>
+
+                 <div className="col-span-11">
+                  <textarea value={content} onChange={(e) => setContent(e.target.value)} className="w-full bg-transparent text-xl outline-none px-3 border-b border-slate-700" placeholder="What's happening?" rows={3}></textarea>
+                  <div className="mt-2 flex items-center justify-between">
+                    <BiImageAlt onClick={handleImageSelect} className="text-xl"/>
+                    <button onClick={handleCreateTweet} className="bg-[#1d9bf0] py-1 px-4 text-sm font-semibold rounded-full">Tweet</button>
+                  </div>
+                </div>
+                
+                </div>
+              </div>
+            </div>
+            {tweets &&  tweets?.map(tweet => tweet && <FeedCard key={tweet.id} data={tweet as Tweet} />)}
+            {/* <FeedCard/>
             <FeedCard/>
             <FeedCard/>
             <FeedCard/>
             <FeedCard/>
             <FeedCard/>
             <FeedCard/>
-            <FeedCard/>
-            <FeedCard/>
+            <FeedCard/> */}
           </div>
           <div className="col-span-3 p-5">
               {!user.data?.getCurrentUser && <div className="p-2 w-60 bg-slate-700 rounded-lg">
                 <h1 className="my-2 text-2xl">New to Twitter?</h1>
                 <GoogleLogin onSuccess={handleLoginWithGoogle} />
-              </div> }
+              </div>}
           </div>
        </div>
       
