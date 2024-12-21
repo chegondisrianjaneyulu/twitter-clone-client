@@ -29,7 +29,11 @@ const FeedCard :React.FC<FeedCardProps> = (props) => {
             <div className="col-span-11">
                 <Link href={`/${data.author?.id}`}> <h1>{data.author?.firstName} {data.author?.lastName}</h1></Link>
                 <p>{data.content}</p>
-            
+                {
+                  data.imageUrl && (
+                    <Image src={data.imageUrl} alt='image' height={400} width={400} />
+                  )
+                }
                 <div className="flex justify-between mt-5 text-xl items-center w-[90%]">
                     <div>
                         <BiMessageRounded/>
