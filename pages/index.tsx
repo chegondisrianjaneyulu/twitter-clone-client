@@ -21,17 +21,16 @@ export default function Home(props: HomeProps) {
   const [imageURL, setImageURL] = useState('')
 
   const user = useCurrentUser();
-  // const {tweets} = useGetAllTweets();
-  const { mutate } = useCreateTweet()
+
+  const {tweets = props.tweets as Tweet[]} = useGetAllTweets();
+
+  const { mutateAsync } = useCreateTweet()
   
-  const handleCreateTweet = useCallback(() => {
-    mutate({
-      content,
-      imageUrl:imageURL,
-    })
+  const handleCreateTweet = useCallback(async () => {
+    await mutateAsync({ content, imageUrl:imageURL})
     setContent('')
     setImageURL('')
-  }, [content, mutate, imageURL])
+  }, [content, mutateAsync, imageURL])
 
 
   const handleInputFunction = useCallback((input: HTMLInputElement) => {
@@ -136,7 +135,7 @@ export default function Home(props: HomeProps) {
                 </div>
               </div>
           </div>
-          {props.tweets &&  props.tweets?.map(tweet => tweet && <FeedCard key={tweet.id} data={tweet as Tweet} />)}
+          {tweets &&  tweets?.map(tweet => tweet && <FeedCard key={tweet.id} data={tweet as Tweet} />)}
          </TwitterLayout>
       </div>
   );
