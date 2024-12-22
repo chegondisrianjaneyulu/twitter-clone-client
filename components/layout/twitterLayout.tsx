@@ -147,10 +147,31 @@ const TwitterLayout:React.FC<TwitterLayoutProps> = ({children}) => {
           <div className="col-span-10 sm:col-span-6 border-r border-l h-screen overflow-scroll  border-gray-600">{children}</div>
 
           <div className="col-span-0 sm:col-span-3 p-5">
-              {!user.data?.getCurrentUser && <div className="p-2 w-60 bg-slate-700 rounded-lg">
+              {!user.data?.getCurrentUser ? <div className="p-2 w-60 bg-slate-700 rounded-lg">
                 <h1 className="my-2 text-2xl">New to Twitter?</h1>
                 <GoogleLogin onSuccess={handleLoginWithGoogle} />
-              </div>}
+              </div> : 
+                <>
+                {/* {user?.data?.getCurrentUser?.recommendedUsers?.length > 0 && ( */}
+                  <>
+                  <div className="px-4 py-2 bg-slate-800 w-[290px] rounded-lg">
+                    <h1 className="my-2 text-2xl mb-5">Users You May Know</h1>
+                    {user.data.getCurrentUser.recommendedUsers?.map((el) => (
+                        <div key={el?.id} className="flex items-center gap-3 mt-2">
+                          {el?.profileImageUrl && <Image className="rounded-full" src={el.profileImageUrl} alt="user-follow-image" width={60} height={60} />}
+                          <div className="text-lg">
+                            <div>{el?.firstName} {el?.lastName}</div>
+                            <Link href={`/${el?.id}`} className="bg-white text-black text-sm px-5 py-1 w-full rounded-lg">View</Link>
+                          </div>
+                        </div>
+                    ))} 
+                  </div>
+                  </>
+                {/* ) } */}
+                
+                
+                </>
+              }
           </div>
        </div>
     )
