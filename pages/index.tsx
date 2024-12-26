@@ -22,7 +22,7 @@ export default function Home(props: HomeProps) {
 
   const user = useCurrentUser();
 
-  const {tweets = props.tweets as Tweet[]} = useGetAllTweets();
+  const {tweets } = useGetAllTweets();
 
   const { mutateAsync } = useCreateTweet()
   
@@ -38,10 +38,7 @@ export default function Home(props: HomeProps) {
       try {
         event.preventDefault();
         const file: File | null | undefined = input.files?.item(0);
-  
-       
 
-        console.log('file', file)
         if ( !file ) return
   
         const fileExtension = file.type.split('/')[1]; 
@@ -141,7 +138,7 @@ export default function Home(props: HomeProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<HomeProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
    const allTweets = await graphqlClient.request(getAllTweetsQuery);
    
    return {

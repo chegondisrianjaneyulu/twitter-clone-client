@@ -6,7 +6,6 @@ import { useCurrentUser } from "@/hooks/user";
 import Image from "next/image";
 import React, { useCallback, useMemo } from "react";
 import { BsArrowLeftShort } from "react-icons/bs";
-import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { graphqlClient } from "@/clients/api";
 import { getUserById } from "@/graphql/query/user";
