@@ -63,6 +63,7 @@ export default function Home() {
         }
       }
       catch (e) {
+        console.log(e)
         // if (e instanceof Error) {
         //   const graphqlErrors = e.response?.errors;
         //   if (graphqlErrors && graphqlErrors.length > 0) {
