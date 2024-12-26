@@ -16,7 +16,7 @@ interface HomeProps {
   tweets?: Tweet[]
 }
 
-export default function Home(props: HomeProps) {
+export default function Home() {
   const [content, setContent] = useState('')
   const [imageURL, setImageURL] = useState('')
 
@@ -62,20 +62,20 @@ export default function Home(props: HomeProps) {
   
         }
       }
-      catch (e:any) {
-        const graphqlErrors = e.response?.errors;
-      if (graphqlErrors && graphqlErrors.length > 0) {
-        graphqlErrors.forEach((error: any) => {
-          console.error("GraphQL Error Message:", error.message);
-          toast.error(error.message); // Display the error message in a toast
-        });
-      } else {
-        console.error("Unexpected Error:", e.message);
-        toast.error(e.message || "An unexpected error occurred.");
-      }
-      }
-
-
+      catch (e) {
+        // if (e instanceof Error) {
+        //   const graphqlErrors = e.response?.errors;
+        //   if (graphqlErrors && graphqlErrors.length > 0) {
+        //     graphqlErrors.forEach((error: any) => {
+        //       console.error("GraphQL Error Message:", error?.message);
+        //       toast.error(error?.message); // Display the error message in a toast
+        //     });
+        //   } else {
+        //     console.error("Unexpected Error:", e?.message);
+        //     toast.error(e?.message || "An unexpected error occurred.");
+        //   }
+        //   }
+        }
        
     }
   }, [])
